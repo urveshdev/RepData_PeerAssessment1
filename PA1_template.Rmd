@@ -1,6 +1,6 @@
 ---
 title: "Analysis- Personal Activity Monitoring"
-author: "****** ******"
+author: "Urvesh ******"
 date: "Sunday, August 16, 2015"
 output: html_document
 ---
@@ -31,7 +31,7 @@ head(dataagg)
 
 2. Let us plot the histogram of steps and see how it looks like.
 We are also calculating mean and median values.
-```{r}
+```{r hist_total_no_of_step_taken_each_day}
 hist(dataagg$steps, xlab = "steps per day", main = "Histogram of steps per day", col ="gray")
 ```
 
@@ -54,6 +54,9 @@ steps taken, averaged across all days
 ```{r}
 dataagg1 <- aggregate(data$steps ~ data$interval, data, FUN = "mean")
 names(dataagg1) <- c("interval","stepsAvg")
+```
+
+```{r plot_avg_no_of_steps_taken_vs_interval}
 plot(dataagg1$interval, dataagg1$stepsAvg, type = "l", xlab = "interval",
      ylab = "Average steps")
 ```
@@ -91,10 +94,14 @@ for (i in 1:nrow(completeData))
 ```{r}
 dataaggNew <- aggregate(completeData$steps ~ completeData$date, completeData, FUN = "sum")
 names(dataaggNew)<- c("day","steps")
-hist(dataaggNew$steps, xlab = "steps per day", main = "new Histogram of steps per day", col="gray")
 meanPerdayNew <- as.integer(mean(dataaggNew$steps))
 medianPerdayNew <- as.integer(median(dataaggNew$steps)) 
 ```
+
+```{r hist_total_no_of_step_taken_each_day_after_imputing}
+hist(dataaggNew$steps, xlab = "steps per day", main = "new Histogram of steps per day", col="gray")
+```
+
 mean value before: __`r meanPerday`__ mean value after: __`r meanPerdayNew`__  
 median value before: __`r medianPerday`__ median value after: __`r medianPerdayNew`__
 
@@ -121,11 +128,10 @@ first let us calculate average number of steps avarage weekdays/weekend
 ```{r}
 dataaggNew1 <- aggregate(completeData$steps ~ completeData$interval + completeData$day, data, FUN = "mean")
 names(dataaggNew1) <- c("interval","day","stepsAvg")
-
 ```
 
-Time to plot...
-```{r}
+Time to plot...  
+```{r Panelplot}
 require("lattice")
 xyplot(stepsAvg ~ interval | day, dataaggNew1, type = "l", layout = c(1, 2), xlab = "Interval",
        ylab = "Number of steps")

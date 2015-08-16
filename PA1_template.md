@@ -1,6 +1,6 @@
 ---
 title: "Analysis- Personal Activity Monitoring"
-author: "****** ******"
+author: "Urvesh ******"
 date: "Sunday, August 16, 2015"
 output: html_document
 ---
@@ -57,7 +57,7 @@ We are also calculating mean and median values.
 hist(dataagg$steps, xlab = "steps per day", main = "Histogram of steps per day", col ="gray")
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
+![plot of chunk hist_total_no_of_step_taken_each_day](figure/hist_total_no_of_step_taken_each_day-1.png) 
 
 3. Calculating mean and median
 
@@ -91,11 +91,15 @@ steps taken, averaged across all days
 ```r
 dataagg1 <- aggregate(data$steps ~ data$interval, data, FUN = "mean")
 names(dataagg1) <- c("interval","stepsAvg")
+```
+
+
+```r
 plot(dataagg1$interval, dataagg1$stepsAvg, type = "l", xlab = "interval",
      ylab = "Average steps")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+![plot of chunk plot_avg_no_of_steps_taken_vs_interval](figure/plot_avg_no_of_steps_taken_vs_interval-1.png) 
 
 2. Finding interval which contains maximum number of averaged steps
 
@@ -142,15 +146,17 @@ for (i in 1:nrow(completeData))
 ```r
 dataaggNew <- aggregate(completeData$steps ~ completeData$date, completeData, FUN = "sum")
 names(dataaggNew)<- c("day","steps")
-hist(dataaggNew$steps, xlab = "steps per day", main = "new Histogram of steps per day", col="gray")
-```
-
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
-
-```r
 meanPerdayNew <- as.integer(mean(dataaggNew$steps))
 medianPerdayNew <- as.integer(median(dataaggNew$steps)) 
 ```
+
+
+```r
+hist(dataaggNew$steps, xlab = "steps per day", main = "new Histogram of steps per day", col="gray")
+```
+
+![plot of chunk hist_total_no_of_step_taken_each_day_after_imputing](figure/hist_total_no_of_step_taken_each_day_after_imputing-1.png) 
+
 mean value before: __10766__ mean value after: __10766__  
 median value before: __10765__ median value after: __10766__
 
@@ -181,7 +187,7 @@ dataaggNew1 <- aggregate(completeData$steps ~ completeData$interval + completeDa
 names(dataaggNew1) <- c("interval","day","stepsAvg")
 ```
 
-Time to plot...
+Time to plot...  
 
 ```r
 require("lattice")
@@ -189,6 +195,6 @@ xyplot(stepsAvg ~ interval | day, dataaggNew1, type = "l", layout = c(1, 2), xla
        ylab = "Number of steps")
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
+![plot of chunk Panelplot](figure/Panelplot-1.png) 
 
 Looking at the plot, it is clear that there is a difference in activity patterns on weekdays and weekends. We can observe high number of states on weekend for interval values ranging from 1000 to 2000 
